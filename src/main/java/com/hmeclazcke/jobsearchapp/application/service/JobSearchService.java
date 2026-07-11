@@ -1,36 +1,27 @@
 package com.hmeclazcke.jobsearchapp.application.service;
 
-import com.hmeclazcke.jobsearchapp.application.merger.JobMerger;
-import com.hmeclazcke.jobsearchapp.application.port.in.SearchJobs;
-import com.hmeclazcke.jobsearchapp.application.port.out.JobSource;
+import com.hmeclazcke.jobsearchapp.application.port.in.SearchJobsUseCase;
+import com.hmeclazcke.jobsearchapp.application.port.out.JobProvider;
 import com.hmeclazcke.jobsearchapp.domain.Job;
 import com.hmeclazcke.jobsearchapp.domain.JobSearchCriteria;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
 import java.util.List;
 
-public class JobSearchService implements SearchJobs {
-    private final List<JobSource> jobSources;
-    private final JobMerger jobMerger;
-    private final JobSearchCriteria searchCriteria;
+@Service
+@RequiredArgsConstructor
+public class JobSearchService implements SearchJobsUseCase {
 
-    public JobSearchService(List<JobSource> jobSources, JobMerger jobMerger, JobSearchCriteria searchCriteria) {
-        this.jobSources = jobSources;
-        this.jobMerger = jobMerger;
-        this.searchCriteria = searchCriteria;
-    }
-
+    // Spring automatically injects all JobProvider beans registered in AppConfig into this list at startup.
+    private final List<JobProvider> jobProviders;
 
     @Override
     public List<Job> search(JobSearchCriteria criteria) {
 
-        List<Job> jobs = new ArrayList<>();
+        return jobProviders.stream()
+                .flatMap(jobProvider -> jobProvider.search(criteria).stream())
+                .toList();
 
-        for (JobSource jobSource : jobSources) {
-            jobs.addAll(jobSource.search(searchCriteria));
-        }
-
-        return jobMerger.merge(jobs);
     }
 }

@@ -5,6 +5,6 @@ import com.hmeclazcke.jobsearchapp.domain.JobSearchCriteria;
 
 import java.util.List;
 
-public interface SearchJobs {
+public interface SearchJobsUseCase {
     List<Job> search(JobSearchCriteria criteria);
 }
