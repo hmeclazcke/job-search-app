@@ -11,7 +11,6 @@ import java.util.List;
 public class HttpInternalJobApiClient implements JobClient<InternalJobDto> {
     @Override
     public List<InternalJobDto> search(JobSearchCriteria criteria) {
-
         //TODO: Continue from here
         return List.of();
     }
