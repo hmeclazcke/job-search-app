@@ -1,4 +1,4 @@
-# Job Search App
+# Job Search App - Clean Architecture
 
 Spring Boot application that searches jobs from multiple providers and exposes them through one clean domain model.
 
