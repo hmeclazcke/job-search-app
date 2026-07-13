@@ -1,0 +1,135 @@
+<svg width="1600" height="980" viewBox="0 0 1600 980" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Execution Flow - Job Search App</title>
+  <desc id="desc">Detailed sequence diagram for the job search request execution flow.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M1,1 L9,5.5 L1,10 Z" fill="#111827"/>
+    </marker>
+    <filter id="shadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#111827" flood-opacity="0.13"/>
+    </filter>
+  </defs>
+  <style>
+    .bg { fill: #ffffff; }
+    .title { font: 800 34px Arial, sans-serif; fill: #111827; }
+    .subtitle { font: italic 20px Arial, sans-serif; fill: #374151; }
+    .box { stroke-width: 1.8; rx: 8; filter: url(#shadow); }
+    .user { fill: #ecfdf5; stroke: #16a34a; }
+    .web { fill: #eff6ff; stroke: #2563eb; }
+    .service { fill: #fffbeb; stroke: #d97706; }
+    .provider { fill: #f5f3ff; stroke: #7c3aed; }
+    .api { fill: #f8fafc; stroke: #64748b; }
+    .note { fill: #fef3c7; stroke: #92400e; stroke-width: 1.5; stroke-dasharray: 5 5; rx: 10; }
+    .label { font: 800 14px Arial, sans-serif; fill: #111827; }
+    .small { font: 400 13px Arial, sans-serif; fill: #111827; }
+    .tiny { font: 400 12px Arial, sans-serif; fill: #374151; }
+    .life { stroke: #111827; stroke-width: 1.4; stroke-dasharray: 6 7; }
+    .call { stroke: #111827; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+    .return { stroke: #111827; stroke-width: 1.8; fill: none; stroke-dasharray: 7 6; marker-end: url(#arrow); }
+    .activate-web { fill: #dbeafe; stroke: #2563eb; }
+    .activate-service { fill: #fef3c7; stroke: #d97706; }
+    .activate-provider { fill: #ede9fe; stroke: #7c3aed; }
+    .activate-api { fill: #e2e8f0; stroke: #64748b; }
+    .legend { fill: #ffffff; stroke: #111827; stroke-width: 1.6; rx: 10; }
+  </style>
+
+  <rect class="bg" width="1600" height="980"/>
+  <text class="title" x="800" y="45" text-anchor="middle">Execution Flow - Job Search App</text>
+  <text class="subtitle" x="800" y="76" text-anchor="middle">Sequence / use case flow</text>
+
+  <rect class="box user" x="28" y="112" width="105" height="72"/>
+  <text class="label" x="80" y="154" text-anchor="middle">User</text>
+
+  <rect class="box web" x="188" y="112" width="150" height="72"/>
+  <text class="label" x="263" y="144" text-anchor="middle">Controller</text>
+  <text class="tiny" x="263" y="166" text-anchor="middle">JobSearchController</text>
+
+  <rect class="box service" x="390" y="112" width="155" height="72"/>
+  <text class="label" x="467" y="144" text-anchor="middle">Service</text>
+  <text class="tiny" x="467" y="166" text-anchor="middle">JobSearchService</text>
+
+  <rect class="box provider" x="608" y="112" width="150" height="72"/>
+  <text class="label" x="683" y="144" text-anchor="middle">Jobicy</text>
+  <text class="tiny" x="683" y="166" text-anchor="middle">JobProvider</text>
+
+  <rect class="box provider" x="810" y="112" width="150" height="72"/>
+  <text class="label" x="885" y="144" text-anchor="middle">LinkedIn</text>
+  <text class="tiny" x="885" y="166" text-anchor="middle">JobProvider</text>
+
+  <rect class="box provider" x="1012" y="112" width="150" height="72"/>
+  <text class="label" x="1087" y="144" text-anchor="middle">Internal</text>
+  <text class="tiny" x="1087" y="166" text-anchor="middle">JobProvider</text>
+
+  <rect class="box api" x="1212" y="112" width="125" height="72"/>
+  <text class="label" x="1274" y="144" text-anchor="middle">Jobicy API</text>
+  <text class="tiny" x="1274" y="166" text-anchor="middle">JSON</text>
+
+  <rect class="box api" x="1372" y="112" width="135" height="72"/>
+  <text class="label" x="1439" y="144" text-anchor="middle">LinkedIn</text>
+  <text class="tiny" x="1439" y="166" text-anchor="middle">HTML</text>
+
+  <line class="life" x1="80" y1="184" x2="80" y2="875"/>
+  <line class="life" x1="263" y1="184" x2="263" y2="875"/>
+  <line class="life" x1="467" y1="184" x2="467" y2="875"/>
+  <line class="life" x1="683" y1="184" x2="683" y2="875"/>
+  <line class="life" x1="885" y1="184" x2="885" y2="875"/>
+  <line class="life" x1="1087" y1="184" x2="1087" y2="875"/>
+  <line class="life" x1="1274" y1="184" x2="1274" y2="875"/>
+  <line class="life" x1="1439" y1="184" x2="1439" y2="875"/>
+
+  <rect class="activate-web" x="256" y="220" width="14" height="600"/>
+  <rect class="activate-service" x="460" y="270" width="14" height="500"/>
+  <rect class="activate-provider" x="676" y="325" width="14" height="105"/>
+  <rect class="activate-provider" x="878" y="475" width="14" height="115"/>
+  <rect class="activate-provider" x="1080" y="625" width="14" height="88"/>
+  <rect class="activate-api" x="1267" y="355" width="14" height="52"/>
+  <rect class="activate-api" x="1432" y="505" width="14" height="52"/>
+
+  <rect class="note" x="645" y="215" width="310" height="62"/>
+  <text class="small" x="800" y="240" text-anchor="middle">Each provider fetches external data</text>
+  <text class="small" x="800" y="260" text-anchor="middle">and maps DTOs into domain jobs.</text>
+
+  <path class="call" d="M80 230 L256 230"/>
+  <text class="small" x="95" y="220">1. POST /jobs/search</text>
+
+  <path class="call" d="M270 285 L460 285"/>
+  <text class="small" x="300" y="274">2. search(criteria)</text>
+
+  <path class="call" d="M474 340 L676 340"/>
+  <text class="small" x="500" y="328">3. search(criteria)</text>
+  <path class="call" d="M690 370 L1267 370"/>
+  <text class="small" x="900" y="358">4. request remote jobs</text>
+  <path class="return" d="M1267 405 L690 405"/>
+  <text class="small" x="930" y="397">5. Jobicy DTOs</text>
+  <path class="return" d="M676 430 L474 430"/>
+  <text class="small" x="530" y="421">6. List&lt;Job&gt;</text>
+
+  <path class="call" d="M474 490 L878 490"/>
+  <text class="small" x="565" y="478">7. search(criteria)</text>
+  <path class="call" d="M892 520 L1432 520"/>
+  <text class="small" x="1100" y="508">8. request job cards</text>
+  <path class="return" d="M1432 555 L892 555"/>
+  <text class="small" x="1125" y="547">9. HTML</text>
+  <path class="return" d="M878 590 L474 590"/>
+  <text class="small" x="610" y="582">10. List&lt;Job&gt;</text>
+
+  <path class="call" d="M474 640 L1080 640"/>
+  <text class="small" x="650" y="628">11. search(criteria)</text>
+  <path class="return" d="M1080 712 L474 712"/>
+  <text class="small" x="715" y="704">12. empty list / placeholder</text>
+
+  <path class="call" d="M474 748 L600 748"/>
+  <path class="call" d="M600 748 L474 748"/>
+  <text class="small" x="520" y="738">13. merge results</text>
+
+  <path class="return" d="M460 785 L270 785"/>
+  <text class="small" x="340" y="777">14. List&lt;Job&gt;</text>
+  <path class="return" d="M256 835 L80 835"/>
+  <text class="small" x="105" y="827">15. 200 OK + jobs</text>
+
+  <rect class="legend" x="585" y="892" width="430" height="58"/>
+  <path class="call" d="M620 912 L685 912"/>
+  <text class="tiny" x="710" y="917">sync call</text>
+  <path class="return" d="M820 912 L885 912"/>
+  <text class="tiny" x="910" y="917">return</text>
+</svg>

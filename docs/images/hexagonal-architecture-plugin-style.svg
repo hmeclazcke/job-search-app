@@ -1,0 +1,85 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Plugin-style Providers - Hexagonal View</title>
+  <desc id="desc">Hexagonal architecture diagram focused on plugin-style job providers.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#111827"/>
+    </marker>
+    <filter id="shadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <style>
+    .bg { fill: #ffffff; }
+    .title { font: 800 32px Arial, sans-serif; fill: #111827; }
+    .subtitle { font: 400 16px Arial, sans-serif; fill: #475569; }
+    .hex { fill: #f8fafc; stroke: #334155; stroke-width: 3; }
+    .core { fill: #ecfeff; stroke: #0891b2; stroke-width: 3; }
+    .domain { fill: #f0fdf4; stroke: #16a34a; stroke-width: 3; }
+    .card { fill: #ffffff; stroke-width: 2; rx: 10; filter: url(#shadow); }
+    .plugin { fill: #fff7ed; stroke: #ea580c; }
+    .port { fill: #e0f2fe; stroke: #0284c7; }
+    .config { fill: #f5f3ff; stroke: #7c3aed; }
+    .label { font: 800 15px Arial, sans-serif; fill: #111827; }
+    .small { font: 400 13px Arial, sans-serif; fill: #475569; }
+    .code { font: 400 12px Consolas, monospace; fill: #334155; }
+    .arrow { stroke: #111827; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    .wire { stroke: #7c3aed; stroke-width: 2.2; fill: none; stroke-dasharray: 4 7; marker-end: url(#arrow); }
+  </style>
+
+  <rect class="bg" width="1200" height="760"/>
+  <text class="title" x="600" y="58" text-anchor="middle">Plugin-style Providers</text>
+  <text class="subtitle" x="600" y="86" text-anchor="middle">Each source plugs into the same output port.</text>
+
+  <polygon class="hex" points="340,135 860,135 1015,380 860,625 340,625 185,380"/>
+  <polygon class="core" points="430,230 770,230 865,380 770,530 430,530 335,380"/>
+  <polygon class="domain" points="505,345 695,345 735,380 695,415 505,415 465,380"/>
+
+  <rect class="card port" x="480" y="250" width="240" height="74"/>
+  <text class="label" x="600" y="278" text-anchor="middle">JobSearchService</text>
+  <text class="small" x="600" y="300" text-anchor="middle">application use case</text>
+
+  <rect class="card port" x="480" y="450" width="240" height="74"/>
+  <text class="label" x="600" y="478" text-anchor="middle">JobProvider</text>
+  <text class="small" x="600" y="500" text-anchor="middle">output port</text>
+
+  <text class="label" x="600" y="383" text-anchor="middle">Job</text>
+  <text class="small" x="600" y="403" text-anchor="middle">domain result</text>
+
+  <rect class="card plugin" x="80" y="235" width="250" height="96"/>
+  <text class="label" x="205" y="263" text-anchor="middle">Jobicy Plugin</text>
+  <text class="code" x="205" y="288" text-anchor="middle">JobClient&lt;JobicyJobDto&gt;</text>
+  <text class="code" x="205" y="309" text-anchor="middle">JobMapper&lt;JobicyJobDto&gt;</text>
+
+  <rect class="card plugin" x="80" y="380" width="250" height="96"/>
+  <text class="label" x="205" y="408" text-anchor="middle">LinkedIn Plugin</text>
+  <text class="code" x="205" y="433" text-anchor="middle">JobClient&lt;LinkedInJobDto&gt;</text>
+  <text class="code" x="205" y="454" text-anchor="middle">JobMapper&lt;LinkedInJobDto&gt;</text>
+
+  <rect class="card plugin" x="870" y="235" width="250" height="96"/>
+  <text class="label" x="995" y="263" text-anchor="middle">Internal Plugin</text>
+  <text class="code" x="995" y="288" text-anchor="middle">JobClient&lt;InternalJobDto&gt;</text>
+  <text class="code" x="995" y="309" text-anchor="middle">JobMapper&lt;InternalJobDto&gt;</text>
+
+  <rect class="card plugin" x="870" y="380" width="250" height="96"/>
+  <text class="label" x="995" y="408" text-anchor="middle">Future Plugin</text>
+  <text class="code" x="995" y="433" text-anchor="middle">JobClient&lt;NewDto&gt;</text>
+  <text class="code" x="995" y="454" text-anchor="middle">JobMapper&lt;NewDto&gt;</text>
+
+  <rect class="card config" x="475" y="605" width="250" height="74"/>
+  <text class="label" x="600" y="633" text-anchor="middle">AppConfig</text>
+  <text class="small" x="600" y="655" text-anchor="middle">registers provider beans</text>
+
+  <path class="arrow" d="M600 324 L600 450"/>
+  <path class="arrow" d="M480 487 L330 283"/>
+  <path class="arrow" d="M480 487 L330 428"/>
+  <path class="arrow" d="M720 487 L870 283"/>
+  <path class="arrow" d="M720 487 L870 428"/>
+
+  <path class="wire" d="M535 605 C410 560 305 500 205 476"/>
+  <path class="wire" d="M560 605 C420 495 310 365 205 331"/>
+  <path class="wire" d="M640 605 C760 495 880 365 995 331"/>
+  <path class="wire" d="M665 605 C790 555 895 505 995 476"/>
+
+  <text class="small" x="600" y="710" text-anchor="middle">A provider is not a runtime plugin here. It is a Spring-wired adapter module.</text>
+</svg>

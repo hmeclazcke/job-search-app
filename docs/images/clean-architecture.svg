@@ -1,0 +1,87 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Clean Architecture diagram for Job Search App</title>
+  <desc id="desc">Diagram showing dependencies from web and external adapters toward application ports and domain models.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <style>
+    .bg { fill: #f8fafc; }
+    .title { fill: #0f172a; font: 700 34px Arial, sans-serif; }
+    .subtitle { fill: #475569; font: 400 16px Arial, sans-serif; }
+    .layer-title { fill: #0f172a; font: 700 18px Arial, sans-serif; }
+    .label { fill: #0f172a; font: 700 15px Arial, sans-serif; }
+    .small { fill: #475569; font: 400 13px Arial, sans-serif; }
+    .note { fill: #334155; font: 400 14px Arial, sans-serif; }
+    .box { stroke-width: 2; rx: 10; filter: url(#shadow); }
+    .domain { fill: #dcfce7; stroke: #16a34a; }
+    .application { fill: #dbeafe; stroke: #2563eb; }
+    .adapter { fill: #ffedd5; stroke: #f97316; }
+    .framework { fill: #e2e8f0; stroke: #64748b; }
+    .arrow { stroke: #334155; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+    .dash { stroke: #64748b; stroke-width: 2; fill: none; stroke-dasharray: 7 6; marker-end: url(#arrow); }
+  </style>
+
+  <rect class="bg" x="0" y="0" width="1200" height="760"/>
+  <text class="title" x="60" y="64">Job Search App - Clean Architecture</text>
+  <text class="subtitle" x="60" y="94">Dependencies point inward. The domain stays independent.</text>
+
+  <rect class="box framework" x="50" y="145" width="250" height="145"/>
+  <text class="layer-title" x="75" y="180">Framework</text>
+  <text class="label" x="75" y="220">Spring Web MVC</text>
+  <text class="small" x="75" y="247">HTTP, JSON, Tomcat</text>
+
+  <rect class="box adapter" x="365" y="145" width="250" height="145"/>
+  <text class="layer-title" x="390" y="180">Adapter In</text>
+  <text class="label" x="390" y="220">JobSearchController</text>
+  <text class="small" x="390" y="247">HTTP DTOs</text>
+
+  <rect class="box application" x="680" y="145" width="250" height="145"/>
+  <text class="layer-title" x="705" y="180">Input Port</text>
+  <text class="label" x="705" y="220">SearchJobsUseCase</text>
+  <text class="small" x="705" y="247">Use case API</text>
+
+  <rect class="box application" x="680" y="355" width="250" height="150"/>
+  <text class="layer-title" x="705" y="390">Service</text>
+  <text class="label" x="705" y="430">JobSearchService</text>
+  <text class="small" x="705" y="457">Runs providers</text>
+
+  <rect class="box application" x="365" y="355" width="250" height="150"/>
+  <text class="layer-title" x="390" y="390">Output Port</text>
+  <text class="label" x="390" y="430">JobProvider</text>
+  <text class="small" x="390" y="457">Provider API</text>
+
+  <rect class="box domain" x="680" y="570" width="250" height="125"/>
+  <text class="layer-title" x="705" y="605">Domain</text>
+  <text class="label" x="705" y="642">Job</text>
+  <text class="small" x="705" y="667">JobSearchCriteria</text>
+
+  <rect class="box adapter" x="50" y="355" width="250" height="150"/>
+  <text class="layer-title" x="75" y="390">Adapter Out</text>
+  <text class="label" x="75" y="430">GenericJobProvider</text>
+  <text class="small" x="75" y="457">Client + Mapper</text>
+
+  <rect class="box framework" x="50" y="570" width="250" height="125"/>
+  <text class="layer-title" x="75" y="605">External APIs</text>
+  <text class="label" x="75" y="642">Jobicy / LinkedIn</text>
+  <text class="small" x="75" y="667">HTTP + HTML/JSON</text>
+
+  <path class="arrow" d="M300 217 L365 217"/>
+  <path class="arrow" d="M615 217 L680 217"/>
+  <path class="arrow" d="M805 290 L805 355"/>
+  <path class="arrow" d="M680 430 L615 430"/>
+  <path class="arrow" d="M365 430 L300 430"/>
+  <path class="dash" d="M175 505 L175 570"/>
+  <path class="arrow" d="M805 505 L805 570"/>
+
+  <text class="note" x="322" y="204">maps request</text>
+  <text class="note" x="632" y="204">calls port</text>
+  <text class="note" x="824" y="326">implements</text>
+  <text class="note" x="513" y="418">queries</text>
+  <text class="note" x="180" y="535">HTTP</text>
+  <text class="note" x="824" y="542">returns models</text>
+</svg>

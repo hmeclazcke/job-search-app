@@ -1,0 +1,84 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Plugin-style providers</title>
+  <desc id="desc">Diagram showing how a provider plugs into the app with a DTO, client, mapper, GenericJobProvider, and AppConfig.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <style>
+    .bg { fill: #f8fafc; }
+    .title { fill: #0f172a; font: 700 32px Arial, sans-serif; }
+    .subtitle { fill: #475569; font: 400 16px Arial, sans-serif; }
+    .box { stroke-width: 2; rx: 10; }
+    .source { fill: #e2e8f0; stroke: #64748b; }
+    .adapter { fill: #ffedd5; stroke: #f97316; }
+    .common { fill: #fef9c3; stroke: #ca8a04; }
+    .app { fill: #dbeafe; stroke: #2563eb; }
+    .domain { fill: #dcfce7; stroke: #16a34a; }
+    .label { fill: #0f172a; font: 700 16px Arial, sans-serif; }
+    .small { fill: #475569; font: 400 13px Arial, sans-serif; }
+    .code { fill: #1e293b; font: 400 13px Consolas, monospace; }
+    .arrow { stroke: #334155; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    .dash { stroke: #64748b; stroke-width: 2; fill: none; stroke-dasharray: 7 6; marker-end: url(#arrow); }
+  </style>
+
+  <rect class="bg" width="1200" height="760"/>
+  <text class="title" x="60" y="62">Plugin-style Providers</text>
+  <text class="subtitle" x="60" y="92">Add adapter pieces. Keep the core unchanged.</text>
+
+  <rect class="box source" x="70" y="155" width="210" height="100"/>
+  <text class="label" x="105" y="190">External API</text>
+  <text class="small" x="105" y="216">JSON, HTML, or internal API</text>
+
+  <rect class="box adapter" x="350" y="130" width="250" height="150"/>
+  <text class="label" x="385" y="165">Provider DTO</text>
+  <text class="code" x="385" y="195">NewProviderJobDto</text>
+  <text class="small" x="385" y="224">External shape</text>
+  <text class="small" x="385" y="248">Adapter only</text>
+
+  <rect class="box adapter" x="350" y="340" width="250" height="150"/>
+  <text class="label" x="385" y="375">Client</text>
+  <text class="code" x="385" y="405">implements JobClient&lt;T&gt;</text>
+  <text class="small" x="385" y="434">Fetches DTOs</text>
+  <text class="small" x="385" y="458">Returns List&lt;T&gt;</text>
+
+  <rect class="box adapter" x="350" y="550" width="250" height="150"/>
+  <text class="label" x="385" y="585">Mapper</text>
+  <text class="code" x="385" y="615">implements JobMapper&lt;T&gt;</text>
+  <text class="small" x="385" y="644">Translates T -&gt; Job</text>
+  <text class="small" x="385" y="668">Maps fields</text>
+
+  <rect class="box common" x="690" y="340" width="250" height="150"/>
+  <text class="label" x="725" y="375">GenericJobProvider&lt;T&gt;</text>
+  <text class="code" x="725" y="405">JobClient&lt;T&gt; + JobMapper&lt;T&gt;</text>
+  <text class="small" x="725" y="434">Implements JobProvider</text>
+  <text class="small" x="725" y="458">Shared pipeline</text>
+
+  <rect class="box app" x="690" y="130" width="250" height="150"/>
+  <text class="label" x="725" y="165">AppConfig</text>
+  <text class="code" x="725" y="195">@Bean JobProvider</text>
+  <text class="small" x="725" y="224">Connects client + mapper</text>
+  <text class="small" x="725" y="248">Spring wires it</text>
+
+  <rect class="box app" x="970" y="340" width="170" height="150"/>
+  <text class="label" x="1005" y="375">Use Case</text>
+  <text class="code" x="1005" y="405">JobProvider</text>
+  <text class="small" x="1005" y="434">Provider-agnostic</text>
+  <text class="small" x="1005" y="458">Core logic</text>
+
+  <rect class="box domain" x="970" y="550" width="170" height="150"/>
+  <text class="label" x="1005" y="585">Domain</text>
+  <text class="code" x="1005" y="615">Job</text>
+  <text class="code" x="1005" y="642">Criteria</text>
+  <text class="small" x="1005" y="668">No external details</text>
+
+  <path class="arrow" d="M280 205 L350 205"/>
+  <path class="arrow" d="M475 280 L475 340"/>
+  <path class="arrow" d="M475 490 L475 550"/>
+  <path class="arrow" d="M600 415 L690 415"/>
+  <path class="arrow" d="M600 625 L690 445"/>
+  <path class="dash" d="M815 280 L815 340"/>
+  <path class="arrow" d="M940 415 L970 415"/>
+  <path class="arrow" d="M1055 490 L1055 550"/>
+</svg>
