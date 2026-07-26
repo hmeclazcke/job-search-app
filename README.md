@@ -22,15 +22,15 @@ Current providers:
 
 ## Stack
 
-| Area | Tool |
-| --- | --- |
-| Language | Java 21 |
-| Framework | Spring Boot 4.1.0 |
-| Web | Spring Web MVC |
-| HTTP client | Spring `RestClient` |
-| Build | Maven |
-| HTML parsing | jsoup |
-| Tests | JUnit / Spring Boot Test |
+| Area | Tool | Used for |
+| --- | --- | --- |
+| Language | Java 21 | Application code and domain model |
+| Framework | Spring Boot 4.1.0 | Application startup, configuration, and dependency injection |
+| Web | Spring Web MVC | REST controller and JSON HTTP API |
+| HTTP client | Spring `RestClient` | Calls to external job providers |
+| Build | Maven | Dependency management, build, and test lifecycle |
+| HTML parsing | jsoup | Parsing LinkedIn job listing HTML |
+| Tests | JUnit 5 / Mockito / AssertJ / Spring Boot Test | Unit tests, mocks, assertions, and Spring context test |
 
 ## Run
 
