@@ -1,6 +1,6 @@
 package com.hmeclazcke.jobsearchapp.adapter.out.internaljobs.client;
 
-import com.hmeclazcke.jobsearchapp.adapter.out.common.common.JobClient;
+import com.hmeclazcke.jobsearchapp.adapter.out.common.JobClient;
 import com.hmeclazcke.jobsearchapp.adapter.out.internaljobs.dto.InternalJobDto;
 import com.hmeclazcke.jobsearchapp.domain.JobSearchCriteria;
 import org.springframework.stereotype.Component;
@@ -14,4 +14,5 @@ public class HttpInternalJobApiClient implements JobClient<InternalJobDto> {
         //TODO: Continue from here
         return List.of();
     }
+
 }

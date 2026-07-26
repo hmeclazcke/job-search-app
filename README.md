@@ -139,9 +139,9 @@ JobProvider = JobClient<T> + JobMapper<T>
 
 Common contracts:
 
-- [`JobClient<T>`](src/main/java/com/hmeclazcke/jobsearchapp/adapter/out/common/common/JobClient.java): fetches provider DTOs.
-- [`JobMapper<T>`](src/main/java/com/hmeclazcke/jobsearchapp/adapter/out/common/common/JobMapper.java): maps provider DTOs to `Job`.
-- [`GenericJobProvider<T>`](src/main/java/com/hmeclazcke/jobsearchapp/adapter/out/common/common/GenericJobProvider.java): combines client and mapper.
+- [`JobClient<T>`](src/main/java/com/hmeclazcke/jobsearchapp/adapter/out/common/JobClient.java): fetches provider DTOs.
+- [`JobMapper<T>`](src/main/java/com/hmeclazcke/jobsearchapp/adapter/out/common/JobMapper.java): maps provider DTOs to `Job`.
+- [`GenericJobProvider<T>`](src/main/java/com/hmeclazcke/jobsearchapp/adapter/out/common/GenericJobProvider.java): combines client and mapper.
 
 This keeps each provider small:
 

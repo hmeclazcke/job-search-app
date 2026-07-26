@@ -1,13 +1,12 @@
 package com.hmeclazcke.jobsearchapp.adapter.out.jobicy.client;
 
-import com.hmeclazcke.jobsearchapp.adapter.out.common.common.JobClient;
+import com.hmeclazcke.jobsearchapp.adapter.out.common.JobClient;
 import com.hmeclazcke.jobsearchapp.adapter.out.jobicy.dto.JobicyJobDto;
 import com.hmeclazcke.jobsearchapp.domain.JobSearchCriteria;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 

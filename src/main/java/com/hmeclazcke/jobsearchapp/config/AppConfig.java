@@ -1,6 +1,6 @@
 package com.hmeclazcke.jobsearchapp.config;
 
-import com.hmeclazcke.jobsearchapp.adapter.out.common.common.GenericJobProvider;
+import com.hmeclazcke.jobsearchapp.adapter.out.common.GenericJobProvider;
 import com.hmeclazcke.jobsearchapp.adapter.out.internaljobs.client.HttpInternalJobApiClient;
 import com.hmeclazcke.jobsearchapp.adapter.out.internaljobs.mapper.InternalJobMapper;
 import com.hmeclazcke.jobsearchapp.adapter.out.jobicy.client.HttpJobicyApiClient;

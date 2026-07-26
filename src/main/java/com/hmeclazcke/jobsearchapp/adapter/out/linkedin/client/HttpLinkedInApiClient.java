@@ -1,6 +1,6 @@
 package com.hmeclazcke.jobsearchapp.adapter.out.linkedin.client;
 
-import com.hmeclazcke.jobsearchapp.adapter.out.common.common.JobClient;
+import com.hmeclazcke.jobsearchapp.adapter.out.common.JobClient;
 import com.hmeclazcke.jobsearchapp.adapter.out.linkedin.dto.LinkedInJobDto;
 import com.hmeclazcke.jobsearchapp.adapter.out.linkedin.parser.LinkedInHtmlParser;
 import com.hmeclazcke.jobsearchapp.domain.JobSearchCriteria;

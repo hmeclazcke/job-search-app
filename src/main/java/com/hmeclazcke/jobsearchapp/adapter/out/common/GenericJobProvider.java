@@ -1,4 +1,4 @@
-package com.hmeclazcke.jobsearchapp.adapter.out.common.common;
+package com.hmeclazcke.jobsearchapp.adapter.out.common;
 
 import com.hmeclazcke.jobsearchapp.application.port.out.JobProvider;
 import com.hmeclazcke.jobsearchapp.domain.Job;
