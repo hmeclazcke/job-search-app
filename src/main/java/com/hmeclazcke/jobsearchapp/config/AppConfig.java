@@ -1,7 +1,7 @@
 package com.hmeclazcke.jobsearchapp.config;
 
 import com.hmeclazcke.jobsearchapp.adapter.out.common.GenericJobProvider;
-import com.hmeclazcke.jobsearchapp.adapter.out.internaljobs.client.HttpInternalJobApiClient;
+import com.hmeclazcke.jobsearchapp.adapter.out.internaljobs.client.MongoInternalJobClient;
 import com.hmeclazcke.jobsearchapp.adapter.out.internaljobs.mapper.InternalJobMapper;
 import com.hmeclazcke.jobsearchapp.adapter.out.jobicy.client.HttpJobicyApiClient;
 import com.hmeclazcke.jobsearchapp.adapter.out.jobicy.mapper.JobicyJobMapper;
@@ -37,7 +37,7 @@ public class AppConfig {
 
     @Bean
     public JobProvider internalJobProvider(
-            HttpInternalJobApiClient client,
+            MongoInternalJobClient client,
             InternalJobMapper mapper) {
         return new GenericJobProvider<>(client, mapper);
     }

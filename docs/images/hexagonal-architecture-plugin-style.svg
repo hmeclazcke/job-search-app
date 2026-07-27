@@ -58,8 +58,8 @@
 
   <rect class="card plugin" x="870" y="235" width="250" height="96"/>
   <text class="label" x="995" y="263" text-anchor="middle">Internal Plugin</text>
-  <text class="code" x="995" y="288" text-anchor="middle">JobClient&lt;InternalJobDto&gt;</text>
-  <text class="code" x="995" y="309" text-anchor="middle">JobMapper&lt;InternalJobDto&gt;</text>
+  <text class="code" x="995" y="288" text-anchor="middle">JobClient&lt;InternalJobDocument&gt;</text>
+  <text class="code" x="995" y="309" text-anchor="middle">JobMapper&lt;InternalJobDocument&gt;</text>
 
   <rect class="card plugin" x="870" y="380" width="250" height="96"/>
   <text class="label" x="995" y="408" text-anchor="middle">Future Plugin</text>

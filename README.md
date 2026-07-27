@@ -16,9 +16,9 @@ The project is built around **Clean Architecture**, **Hexagonal Architecture**, 
 
 Current providers:
 
-- Jobicy
-- LinkedIn
-- Internal jobs placeholder
+- Jobicy external API
+- LinkedIn public job listings
+- Internal jobs from MongoDB
 
 ## Stack
 
@@ -28,6 +28,8 @@ Current providers:
 | Framework | Spring Boot 4.1.0 | Application startup, configuration, and dependency injection |
 | Web | Spring Web MVC | REST controller and JSON HTTP API |
 | HTTP client | Spring `RestClient` | Calls to external job providers |
+| Data access | Spring Data MongoDB | Reads internal job documents from MongoDB |
+| Database | MongoDB Atlas / MongoDB 7 | Stores internal jobs |
 | Build | Maven | Dependency management, build, and test lifecycle |
 | HTML parsing | jsoup | Parsing LinkedIn job listing HTML |
 | Tests | JUnit 5 / Mockito / AssertJ / Spring Boot Test | Unit tests, mocks, assertions, and Spring context test |
@@ -38,6 +40,19 @@ Default URL:
 
 ```text
 http://localhost:8080
+```
+
+Local MongoDB can be started with Docker Compose:
+
+```bash
+docker compose up -d
+```
+
+The application uses MongoDB from `MONGODB_URI` when that environment variable is present.
+If it is not present, it falls back to local MongoDB:
+
+```text
+mongodb://localhost:27017/job-search-app
 ```
 
 ## API
@@ -129,7 +144,7 @@ Spring injects every `JobProvider` bean into the list. The service does not know
 
 ![Provider Extension](docs/images/provider-extension.svg)
 
-Each job source behaves like a small static plugin. It brings its own client, DTO, and mapper, then Spring wires it into the app through `JobProvider`.
+Each job source behaves like a small static plugin. It brings its own client, source-specific model, and mapper, then Spring wires it into the app through `JobProvider`.
 
 The shared shape is:
 
@@ -139,20 +154,38 @@ JobProvider = JobClient<T> + JobMapper<T>
 
 Common contracts:
 
-- [`JobClient<T>`](src/main/java/com/hmeclazcke/jobsearchapp/adapter/out/common/JobClient.java): fetches provider DTOs.
-- [`JobMapper<T>`](src/main/java/com/hmeclazcke/jobsearchapp/adapter/out/common/JobMapper.java): maps provider DTOs to `Job`.
+- [`JobClient<T>`](src/main/java/com/hmeclazcke/jobsearchapp/adapter/out/common/JobClient.java): fetches provider-specific records.
+- [`JobMapper<T>`](src/main/java/com/hmeclazcke/jobsearchapp/adapter/out/common/JobMapper.java): maps provider-specific records to `Job`.
 - [`GenericJobProvider<T>`](src/main/java/com/hmeclazcke/jobsearchapp/adapter/out/common/GenericJobProvider.java): combines client and mapper.
 
 This keeps each provider small:
 
 ```text
-external API -> DTO -> mapper -> Job
+external API or database -> provider model -> mapper -> Job
 ```
+
+## Internal Jobs
+
+Internal jobs are stored in MongoDB and exposed as another `JobProvider`.
+They are read from database `job-search-app`, collection `Job`.
+
+The MongoDB document is mapped at the adapter edge, then converted into the domain `Job`.
+The domain does not depend on MongoDB annotations or persistence concerns.
+
+Current internal-job search behavior:
+
+- `text` filters the MongoDB `title` field.
+- `location` filters the MongoDB `location` field.
+- `remote=true` filters jobs whose `location` contains `remote`.
+- `remote=false` currently does not add an internal MongoDB filter.
+
+MongoDB documents may contain extra fields that the application does not map yet, such as `salaryRange`, `technologies`, `benefits`, or nested stack information.
+Those fields remain stored in MongoDB without changing the Java domain model.
 
 
 ## Add a Provider
 
-1. Create a provider DTO.
+1. Create a provider-specific model, such as an API DTO or MongoDB document.
 2. Create a `JobClient<T>`.
 3. Create a `JobMapper<T>`.
 4. Register a `JobProvider` bean in [`AppConfig`](src/main/java/com/hmeclazcke/jobsearchapp/config/AppConfig.java).
@@ -190,4 +223,9 @@ spring.application.name=job-search-app
 
 jobicy.api.base-url=https://jobicy.com
 linkedin.api.base-url=https://www.linkedin.com
+
+spring.mongodb.uri=${MONGODB_URI:mongodb://localhost:27017/job-search-app}
 ```
+
+For MongoDB Atlas, set `MONGODB_URI` outside the repository, for example in the IDE run configuration or environment.
+Do not commit Atlas credentials or full connection strings with passwords.
