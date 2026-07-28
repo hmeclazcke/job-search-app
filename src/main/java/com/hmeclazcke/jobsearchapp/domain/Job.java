@@ -1,5 +1,6 @@
 package com.hmeclazcke.jobsearchapp.domain;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 public record Job(
@@ -9,5 +10,5 @@ public record Job(
         String company,
         String location,
         Instant creationDate
-) {
+) implements Serializable { // Required for Java-based cache serialization.
 };

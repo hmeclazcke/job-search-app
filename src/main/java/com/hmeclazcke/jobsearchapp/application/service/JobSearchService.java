@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service("jobSearchService")
 @RequiredArgsConstructor
 public class JobSearchService implements SearchJobsUseCase {
 
