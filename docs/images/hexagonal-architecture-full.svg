@@ -1,9 +1,12 @@
-<svg width="1400" height="950" viewBox="0 0 1400 950" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+<svg width="1500" height="1000" viewBox="0 0 1500 1000" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Hexagonal Architecture - Job Search App</title>
-  <desc id="desc">Detailed hexagonal architecture diagram for the job search application.</desc>
+  <desc id="desc">Hexagonal architecture diagram showing HTTP input, the cached search decorator, the real job search service, provider output ports, MongoDB, external APIs, and Redis as an external cache store.</desc>
   <defs>
     <marker id="arrow-black" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto" markerUnits="strokeWidth">
       <path d="M2,2 L11,6.5 L2,11 Z" fill="#111827"/>
+    </marker>
+    <marker id="arrow-teal" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L11,6.5 L2,11 Z" fill="#0f766e"/>
     </marker>
     <marker id="arrow-purple" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto" markerUnits="strokeWidth">
       <path d="M2,2 L11,6.5 L2,11 Z" fill="#6d28d9"/>
@@ -19,15 +22,16 @@
     .bg { fill: #ffffff; }
     .title { font: 800 34px Arial, sans-serif; fill: #111827; }
     .subtitle { font: italic 20px Arial, sans-serif; fill: #374151; }
-    .section { font: 800 24px Arial, sans-serif; }
+    .section { font: 800 23px Arial, sans-serif; }
     .label { font: 800 16px Arial, sans-serif; fill: #111827; }
     .small { font: 400 14px Arial, sans-serif; fill: #111827; }
     .tiny { font: 400 12px Arial, sans-serif; fill: #374151; }
-    .note { font: 700 13px Arial, sans-serif; fill: #374151; }
     .card { fill: #ffffff; stroke-width: 2.2; rx: 10; filter: url(#card-shadow); }
     .web { fill: #eef6ff; stroke: #2563eb; }
     .app { fill: #eff6ff; stroke: #2563eb; }
+    .decorator { fill: #fef3c7; stroke: #d97706; }
     .adapter { fill: #f0fdf4; stroke: #15803d; }
+    .cache { fill: #ccfbf1; stroke: #0f766e; }
     .domain-card { fill: #fff7ed; stroke: #b45309; }
     .external { fill: #f9fafb; stroke: #111827; }
     .outer { fill: #faf5ff; fill-opacity: 0.42; stroke: #6d28d9; stroke-width: 3; }
@@ -35,100 +39,114 @@
     .inner { fill: #eff6ff; fill-opacity: 0.7; stroke: #2563eb; stroke-width: 3; }
     .domain-hex { fill: #fffbeb; fill-opacity: 0.9; stroke: #b45309; stroke-width: 3; }
     .runtime { stroke: #111827; stroke-width: 2.8; fill: none; marker-end: url(#arrow-black); }
+    .cache-line { stroke: #0f766e; stroke-width: 2.6; fill: none; marker-end: url(#arrow-teal); }
     .implements { stroke: #111827; stroke-width: 2.2; fill: none; stroke-dasharray: 7 6; marker-end: url(#triangle); }
     .wires { stroke: #6d28d9; stroke-width: 2.4; fill: none; stroke-dasharray: 3 7; marker-end: url(#arrow-purple); }
     .legend-box { fill: #ffffff; stroke: #111827; stroke-width: 1.8; rx: 10; }
   </style>
 
-  <rect class="bg" width="1400" height="950"/>
-  <text class="title" x="700" y="48" text-anchor="middle">Hexagonal Architecture - Job Search App</text>
-  <text class="subtitle" x="700" y="78" text-anchor="middle">Ports and adapters for a multi-provider job search service</text>
+  <rect class="bg" width="1500" height="1000"/>
+  <text class="title" x="750" y="48" text-anchor="middle">Hexagonal Architecture - Job Search App</text>
+  <text class="subtitle" x="750" y="78" text-anchor="middle">Ports, adapters, and a Redis-backed decorator for repeated searches</text>
 
-  <polygon class="outer" points="355,100 1065,100 1235,460 1065,820 355,820 185,460"/>
-  <polygon class="middle" points="340,235 1085,235 1200,438 1085,775 340,775 220,438"/>
-  <polygon class="inner" points="475,275 875,275 965,485 875,715 475,715 385,485"/>
-  <polygon class="domain-hex" points="515,670 795,670 835,730 795,790 515,790 475,730"/>
+  <polygon class="outer" points="385,100 1115,100 1288,470 1115,840 385,840 212,470"/>
+  <polygon class="middle" points="360,245 1135,245 1245,455 1135,790 360,790 255,455"/>
+  <polygon class="inner" points="500,290 915,290 1010,505 915,735 500,735 405,505"/>
+  <polygon class="domain-hex" points="540,715 820,715 860,775 820,835 540,835 500,775"/>
 
-  <text class="section" x="700" y="128" text-anchor="middle" fill="#6d28d9">1. Configuration</text>
-  <text class="section" x="700" y="265" text-anchor="middle" fill="#15803d">2. Adapters</text>
-  <text class="section" x="700" y="310" text-anchor="middle" fill="#1d4ed8">3. Application</text>
-  <text class="section" x="655" y="704" text-anchor="middle" fill="#92400e">4. Domain</text>
+  <text class="section" x="750" y="128" text-anchor="middle" fill="#6d28d9">1. Configuration</text>
+  <text class="section" x="750" y="274" text-anchor="middle" fill="#15803d">2. Adapters</text>
+  <text class="section" x="750" y="322" text-anchor="middle" fill="#1d4ed8">3. Application</text>
+  <text class="section" x="680" y="750" text-anchor="middle" fill="#92400e">4. Domain</text>
 
-  <rect class="card web" x="575" y="142" width="250" height="74"/>
-  <text class="label" x="700" y="170" text-anchor="middle">AppConfig</text>
-  <text class="small" x="700" y="193" text-anchor="middle">creates JobProvider beans</text>
+  <rect class="card web" x="485" y="145" width="230" height="74"/>
+  <text class="label" x="600" y="173" text-anchor="middle">AppConfig</text>
+  <text class="small" x="600" y="196" text-anchor="middle">creates JobProvider beans</text>
 
-  <text class="label" x="310" y="304" text-anchor="middle" fill="#14532d">Driving Adapter</text>
-  <text class="small" x="310" y="326" text-anchor="middle" fill="#14532d">HTTP input</text>
-  <rect class="card adapter" x="230" y="410" width="230" height="78"/>
-  <text class="label" x="345" y="438" text-anchor="middle">JobSearchController</text>
-  <text class="small" x="345" y="462" text-anchor="middle">REST Controller</text>
+  <rect class="card cache" x="780" y="145" width="230" height="74"/>
+  <text class="label" x="895" y="173" text-anchor="middle">CacheConfig</text>
+  <text class="small" x="895" y="196" text-anchor="middle">enables Spring Cache</text>
 
-  <text class="label" x="1075" y="304" text-anchor="middle" fill="#14532d">Driven Adapters</text>
-  <text class="small" x="1075" y="326" text-anchor="middle" fill="#14532d">external job sources</text>
-  <rect class="card adapter" x="965" y="370" width="215" height="64"/>
-  <text class="label" x="1072" y="396" text-anchor="middle">Jobicy Provider</text>
-  <text class="small" x="1072" y="416" text-anchor="middle">client + mapper</text>
-  <rect class="card adapter" x="965" y="468" width="215" height="64"/>
-  <text class="label" x="1072" y="494" text-anchor="middle">LinkedIn Provider</text>
-  <text class="small" x="1072" y="514" text-anchor="middle">parser + mapper</text>
-  <rect class="card adapter" x="965" y="566" width="215" height="64"/>
-  <text class="label" x="1072" y="592" text-anchor="middle">Internal Provider</text>
-  <text class="small" x="1072" y="612" text-anchor="middle">placeholder</text>
+  <text class="label" x="340" y="315" text-anchor="middle" fill="#14532d">Driving Adapter</text>
+  <text class="small" x="340" y="337" text-anchor="middle" fill="#14532d">HTTP input</text>
+  <rect class="card adapter" x="230" y="430" width="230" height="78"/>
+  <text class="label" x="345" y="458" text-anchor="middle">JobSearchController</text>
+  <text class="small" x="345" y="482" text-anchor="middle">REST controller</text>
 
-  <rect class="card app" x="470" y="345" width="240" height="78"/>
-  <text class="label" x="590" y="373" text-anchor="middle">SearchJobsUseCase</text>
-  <text class="small" x="590" y="397" text-anchor="middle">input port</text>
-  <rect class="card app" x="470" y="480" width="240" height="78"/>
-  <text class="label" x="590" y="508" text-anchor="middle">JobSearchService</text>
-  <text class="small" x="590" y="532" text-anchor="middle">use case implementation</text>
-  <rect class="card app" x="755" y="480" width="215" height="78"/>
-  <text class="label" x="862" y="508" text-anchor="middle">JobProvider</text>
-  <text class="small" x="862" y="532" text-anchor="middle">output port</text>
+  <rect class="card app" x="520" y="350" width="260" height="70"/>
+  <text class="label" x="650" y="378" text-anchor="middle">SearchJobsUseCase</text>
+  <text class="small" x="650" y="400" text-anchor="middle">input port</text>
 
-  <rect class="card domain-card" x="540" y="720" width="100" height="42"/>
-  <text class="label" x="590" y="747" text-anchor="middle">Job</text>
-  <rect class="card domain-card" x="670" y="720" width="150" height="42"/>
-  <text class="label" x="745" y="747" text-anchor="middle">Criteria</text>
-  <text class="tiny" x="655" y="782" text-anchor="middle" font-style="italic">internal model</text>
+  <rect class="card decorator" x="520" y="465" width="260" height="76"/>
+  <text class="label" x="650" y="493" text-anchor="middle">CachedJobSearchService</text>
+  <text class="small" x="650" y="516" text-anchor="middle">primary decorator</text>
 
-  <rect class="card external" x="1215" y="375" width="145" height="56"/>
-  <text class="small" x="1288" y="408" text-anchor="middle">Jobicy API</text>
-  <rect class="card external" x="1215" y="473" width="145" height="56"/>
-  <text class="small" x="1288" y="506" text-anchor="middle">LinkedIn</text>
-  <rect class="card external" x="1215" y="571" width="145" height="56"/>
-  <text class="small" x="1288" y="604" text-anchor="middle">Internal API</text>
+  <rect class="card app" x="520" y="585" width="260" height="76"/>
+  <text class="label" x="650" y="613" text-anchor="middle">JobSearchService</text>
+  <text class="small" x="650" y="636" text-anchor="middle">provider coordinator</text>
 
-  <circle cx="85" cy="410" r="22" fill="#ffffff" stroke="#111827" stroke-width="3"/>
-  <path d="M45 500 C50 452 120 452 125 500 Z" fill="#ffffff" stroke="#111827" stroke-width="3"/>
-  <text class="label" x="85" y="535" text-anchor="middle">User</text>
+  <rect class="card app" x="805" y="585" width="190" height="76"/>
+  <text class="label" x="900" y="613" text-anchor="middle">JobProvider</text>
+  <text class="small" x="900" y="636" text-anchor="middle">output port</text>
 
-  <path class="runtime" d="M130 448 L230 448"/>
-  <path class="runtime" d="M460 448 L470 448 L470 384"/>
-  <path class="runtime" d="M590 423 L590 480"/>
-  <path class="runtime" d="M710 519 L755 519"/>
-  <path class="runtime" d="M970 402 L1215 402"/>
-  <path class="runtime" d="M970 500 L1215 500"/>
-  <path class="runtime" d="M970 598 L1215 598"/>
+  <rect class="card cache" x="45" y="640" width="180" height="72"/>
+  <text class="label" x="135" y="668" text-anchor="middle">Redis</text>
+  <text class="small" x="135" y="690" text-anchor="middle">external cache store</text>
 
-  <path class="implements" d="M590 480 L590 423"/>
-  <path class="implements" d="M965 402 L875 480"/>
-  <path class="implements" d="M965 500 L875 505"/>
-  <path class="implements" d="M965 598 L875 558"/>
+  <text class="label" x="1120" y="315" text-anchor="middle" fill="#14532d">Driven Adapters</text>
+  <text class="small" x="1120" y="337" text-anchor="middle" fill="#14532d">job sources</text>
+  <rect class="card adapter" x="1065" y="385" width="210" height="64"/>
+  <text class="label" x="1170" y="411" text-anchor="middle">Jobicy Provider</text>
+  <text class="small" x="1170" y="431" text-anchor="middle">client + mapper</text>
+  <rect class="card adapter" x="1065" y="485" width="210" height="64"/>
+  <text class="label" x="1170" y="511" text-anchor="middle">LinkedIn Provider</text>
+  <text class="small" x="1170" y="531" text-anchor="middle">parser + mapper</text>
+  <rect class="card adapter" x="1065" y="585" width="210" height="64"/>
+  <text class="label" x="1170" y="611" text-anchor="middle">Internal Provider</text>
+  <text class="small" x="1170" y="631" text-anchor="middle">Mongo client + mapper</text>
 
-  <path class="wires" d="M610 216 C500 255 420 325 345 410"/>
-  <path class="wires" d="M665 216 C650 285 620 315 590 345"/>
-  <path class="wires" d="M735 216 C780 300 820 390 862 480"/>
-  <path class="wires" d="M790 216 C905 250 1010 300 1072 370"/>
-  <path class="wires" d="M805 216 C940 285 1025 370 1072 468"/>
-  <path class="wires" d="M820 216 C960 325 1045 455 1072 566"/>
+  <rect class="card external" x="1320" y="389" width="140" height="56"/>
+  <text class="small" x="1390" y="422" text-anchor="middle">Jobicy API</text>
+  <rect class="card external" x="1320" y="489" width="140" height="56"/>
+  <text class="small" x="1390" y="522" text-anchor="middle">LinkedIn HTML</text>
+  <rect class="card external" x="1320" y="589" width="140" height="56"/>
+  <text class="small" x="1390" y="622" text-anchor="middle">MongoDB Job</text>
 
-  <rect class="legend-box" x="395" y="842" width="610" height="80"/>
-  <text class="label" x="425" y="872">Legend</text>
-  <path class="runtime" d="M515 868 L590 868"/>
-  <text class="small" x="620" y="873">runtime call</text>
-  <path class="implements" d="M515 895 L590 895"/>
-  <text class="small" x="620" y="900">implements port</text>
-  <path class="wires" d="M760 895 L835 895"/>
-  <text class="small" x="865" y="900">Spring wiring</text>
+  <rect class="card domain-card" x="555" y="765" width="110" height="44"/>
+  <text class="label" x="610" y="793" text-anchor="middle">Job</text>
+  <rect class="card domain-card" x="695" y="765" width="170" height="44"/>
+  <text class="label" x="780" y="793" text-anchor="middle">Criteria</text>
+  <text class="tiny" x="680" y="825" text-anchor="middle" font-style="italic">framework-free model</text>
+
+  <circle cx="95" cy="430" r="22" fill="#ffffff" stroke="#111827" stroke-width="3"/>
+  <path d="M55 520 C60 472 130 472 135 520 Z" fill="#ffffff" stroke="#111827" stroke-width="3"/>
+  <text class="label" x="95" y="555" text-anchor="middle">User</text>
+
+  <path class="runtime" d="M140 468 L230 468"/>
+  <path class="runtime" d="M460 468 C495 438 515 410 520 385"/>
+  <path class="runtime" d="M650 420 L650 465"/>
+  <path class="runtime" d="M650 541 L650 585"/>
+  <path class="runtime" d="M780 623 L805 623"/>
+  <path class="runtime" d="M995 623 L1065 623"/>
+  <path class="runtime" d="M1275 417 L1320 417"/>
+  <path class="runtime" d="M1275 517 L1320 517"/>
+  <path class="runtime" d="M1275 617 L1320 617"/>
+
+  <path class="cache-line" d="M520 503 C420 545 305 620 225 675"/>
+  <path class="cache-line" d="M225 675 C350 650 485 595 650 541"/>
+
+  <path class="implements" d="M1065 517 C1030 550 1010 590 995 623"/>
+
+  <path class="wires" d="M895 219 C940 325 875 455 780 503"/>
+
+  <rect class="legend-box" x="445" y="865" width="610" height="95"/>
+  <text class="label" x="475" y="895">Legend</text>
+  <path class="runtime" d="M565 892 L640 892"/>
+  <text class="small" x="670" y="897">runtime call</text>
+  <path class="implements" d="M565 920 L640 920"/>
+  <text class="small" x="670" y="925">implements port</text>
+  <path class="wires" d="M820 920 L895 920"/>
+  <text class="small" x="925" y="925">Spring wiring</text>
+  <path class="cache-line" d="M820 892 L895 892"/>
+  <text class="small" x="925" y="897">cache access</text>
 </svg>

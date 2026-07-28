@@ -1,9 +1,12 @@
-<svg width="1200" height="720" viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Search request flow</title>
-  <desc id="desc">Sequence-style diagram describing how a job search request flows through controller, use case, providers, clients, mappers, and response.</desc>
+<svg width="1300" height="760" viewBox="0 0 1300 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Cached search flow</title>
+  <desc id="desc">Flow diagram showing how a job search request checks Redis cache through a decorator before delegating to the real job search service and providers.</desc>
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
       <path d="M2,2 L10,6 L2,10 Z" fill="#1f2937"/>
+    </marker>
+    <marker id="arrow-cache" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#0f766e"/>
     </marker>
   </defs>
   <style>
@@ -12,81 +15,80 @@
     .subtitle { fill: #475569; font: 400 16px Arial, sans-serif; }
     .lane { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; rx: 10; }
     .actor { fill: #e0f2fe; stroke: #0284c7; stroke-width: 2; rx: 8; }
-    .app { fill: #dbeafe; stroke: #2563eb; stroke-width: 2; rx: 8; }
     .adapter { fill: #ffedd5; stroke: #f97316; stroke-width: 2; rx: 8; }
+    .port { fill: #dbeafe; stroke: #2563eb; stroke-width: 2; rx: 8; }
+    .service { fill: #fef3c7; stroke: #d97706; stroke-width: 2; rx: 8; }
+    .cache { fill: #ccfbf1; stroke: #0f766e; stroke-width: 2; rx: 8; }
+    .provider { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 2; rx: 8; }
     .domain { fill: #dcfce7; stroke: #16a34a; stroke-width: 2; rx: 8; }
     .label { fill: #0f172a; font: 700 14px Arial, sans-serif; }
     .small { fill: #475569; font: 400 12px Arial, sans-serif; }
     .step { fill: #0f172a; font: 700 16px Arial, sans-serif; }
     .arrow { stroke: #1f2937; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    .cache-arrow { stroke: #0f766e; stroke-width: 2.4; fill: none; marker-end: url(#arrow-cache); }
     .return { stroke: #64748b; stroke-width: 2; fill: none; stroke-dasharray: 8 6; marker-end: url(#arrow); }
+    .cache-return { stroke: #0f766e; stroke-width: 2; fill: none; stroke-dasharray: 8 6; marker-end: url(#arrow-cache); }
   </style>
 
-  <rect class="bg" width="1200" height="720"/>
-  <text class="title" x="60" y="58">Search Request Flow</text>
-  <text class="subtitle" x="60" y="88">Request in. Providers queried. Unified jobs out.</text>
+  <rect class="bg" width="1300" height="760"/>
+  <text class="title" x="60" y="58">Cached Search Flow</text>
+  <text class="subtitle" x="60" y="88">Repeated searches are served from Redis before provider calls are made.</text>
 
-  <rect class="lane" x="40" y="125" width="1120" height="515"/>
+  <rect class="lane" x="40" y="125" width="1220" height="545"/>
 
-  <rect class="actor" x="70" y="175" width="155" height="74"/>
-  <text class="label" x="96" y="207">HTTP Client</text>
-  <text class="small" x="96" y="230">POST /jobs/search</text>
+  <rect class="actor" x="70" y="165" width="150" height="74"/>
+  <text class="label" x="95" y="197">HTTP Client</text>
+  <text class="small" x="95" y="220">POST /jobs/search</text>
 
-  <rect class="adapter" x="280" y="175" width="170" height="74"/>
-  <text class="label" x="306" y="207">Controller</text>
-  <text class="small" x="306" y="230">Map request</text>
+  <rect class="adapter" x="270" y="165" width="155" height="74"/>
+  <text class="label" x="298" y="197">Controller</text>
+  <text class="small" x="298" y="220">request mapping</text>
 
-  <rect class="app" x="505" y="175" width="170" height="74"/>
-  <text class="label" x="531" y="207">Use Case</text>
-  <text class="small" x="531" y="230">SearchJobsUseCase</text>
+  <rect class="port" x="475" y="165" width="185" height="74"/>
+  <text class="label" x="506" y="197">Input Port</text>
+  <text class="small" x="506" y="220">SearchJobsUseCase</text>
 
-  <rect class="app" x="730" y="175" width="170" height="74"/>
-  <text class="label" x="756" y="207">Service</text>
-  <text class="small" x="756" y="230">JobSearchService</text>
+  <rect class="service" x="710" y="165" width="220" height="74"/>
+  <text class="label" x="742" y="197">Cached Decorator</text>
+  <text class="small" x="742" y="220">CachedJobSearchService</text>
 
-  <rect class="app" x="955" y="175" width="170" height="74"/>
-  <text class="label" x="981" y="207">Providers</text>
-  <text class="small" x="981" y="230">JobProvider list</text>
+  <rect class="cache" x="990" y="165" width="180" height="74"/>
+  <text class="label" x="1032" y="197">Redis Cache</text>
+  <text class="small" x="1032" y="220">job-searches</text>
 
-  <path class="arrow" d="M225 212 L280 212"/>
-  <path class="arrow" d="M450 212 L505 212"/>
-  <path class="arrow" d="M675 212 L730 212"/>
-  <path class="arrow" d="M900 212 L955 212"/>
+  <path class="arrow" d="M220 202 L270 202"/>
+  <path class="arrow" d="M425 202 L475 202"/>
+  <path class="arrow" d="M660 202 L710 202"/>
+  <path class="cache-arrow" d="M930 202 L990 202"/>
+  <path class="cache-return" d="M990 228 C880 290 560 290 425 228"/>
+  <text class="small" x="660" y="285" text-anchor="middle">cache hit: return cached List&lt;Job&gt;</text>
 
-  <text class="step" x="90" y="320">1. Providers adapt external sources</text>
+  <text class="step" x="75" y="335">Cache miss path</text>
 
-  <rect class="adapter" x="110" y="360" width="250" height="90"/>
-  <text class="label" x="140" y="392">Jobicy provider</text>
-  <text class="small" x="140" y="417">HttpJobicyApiClient</text>
-  <text class="small" x="140" y="438">JobicyJobMapper</text>
+  <rect class="service" x="540" y="370" width="230" height="82"/>
+  <text class="label" x="584" y="401">Real Service</text>
+  <text class="small" x="584" y="424">JobSearchService</text>
+  <text class="small" x="584" y="442">runs all providers</text>
 
-  <rect class="adapter" x="475" y="360" width="250" height="90"/>
-  <text class="label" x="505" y="392">LinkedIn provider</text>
-  <text class="small" x="505" y="417">HttpLinkedInApiClient</text>
-  <text class="small" x="505" y="438">Parser + Mapper</text>
+  <rect class="provider" x="900" y="350" width="260" height="122"/>
+  <text class="label" x="946" y="382">JobProvider list</text>
+  <text class="small" x="946" y="407">Jobicy API provider</text>
+  <text class="small" x="946" y="429">LinkedIn HTML provider</text>
+  <text class="small" x="946" y="451">MongoDB internal provider</text>
 
-  <rect class="adapter" x="840" y="360" width="250" height="90"/>
-  <text class="label" x="870" y="392">Internal provider</text>
-  <text class="small" x="870" y="417">MongoInternalJobClient</text>
-  <text class="small" x="870" y="438">InternalJobMapper</text>
+  <rect class="domain" x="485" y="545" width="210" height="70"/>
+  <text class="label" x="535" y="574">List&lt;Job&gt;</text>
+  <text class="small" x="525" y="596">unified domain result</text>
 
-  <path class="arrow" d="M1040 249 L235 360"/>
-  <path class="arrow" d="M1040 249 L600 360"/>
-  <path class="arrow" d="M1040 249 L965 360"/>
+  <rect class="adapter" x="760" y="545" width="220" height="70"/>
+  <text class="label" x="805" y="574">Response DTO</text>
+  <text class="small" x="800" y="596">JobSearchResponse</text>
 
-  <text class="step" x="90" y="520">2. All results become domain jobs</text>
-
-  <rect class="domain" x="360" y="555" width="210" height="64"/>
-  <text class="label" x="412" y="582">List&lt;Job&gt;</text>
-  <text class="small" x="400" y="604">unified model</text>
-
-  <rect class="adapter" x="660" y="555" width="210" height="64"/>
-  <text class="label" x="701" y="582">Response DTO</text>
-  <text class="small" x="697" y="604">JobSearchResponse</text>
-
-  <path class="return" d="M235 450 L465 555"/>
-  <path class="return" d="M600 450 L465 555"/>
-  <path class="return" d="M965 450 L465 555"/>
-  <path class="arrow" d="M570 587 L660 587"/>
-  <path class="return" d="M660 587 L148 249"/>
+  <path class="arrow" d="M820 239 C805 292 735 335 655 370"/>
+  <path class="arrow" d="M770 411 L900 411"/>
+  <path class="return" d="M900 452 C820 505 735 535 695 570"/>
+  <path class="cache-arrow" d="M695 575 C830 520 970 385 1080 239"/>
+  <text class="small" x="925" y="515" text-anchor="middle">store non-empty result with TTL</text>
+  <path class="arrow" d="M695 580 L760 580"/>
+  <path class="return" d="M760 585 C560 650 280 610 145 239"/>
 </svg>
